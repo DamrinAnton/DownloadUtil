@@ -22,6 +22,7 @@ namespace DownloadUtil
             fileDialog.ShowDialog();
             string filePath = fileDialog.FileName;
             TextBox_FilePath.Text = filePath;
+            //Проверка git
         }
 
         private void Button_SendFile_Click(object sender, EventArgs e)
