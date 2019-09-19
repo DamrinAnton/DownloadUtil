@@ -16,6 +16,7 @@ namespace DownloadUtil
         public string host = null;
         public string filePath = null;
         public int port = int.MinValue;
+        public string directory = "/home/site_carabi_updates/www/test";
 
         public SFTPWorkClass(string tmp_login, string tmp_password,
                              string tmp_host, string tmp_port)
@@ -28,6 +29,8 @@ namespace DownloadUtil
 
         }
 
+        //Функция отправляет файл с путем tmp_filePath на сервер
+
         public void SendFileSFTP(string tmp_filePath)
         {
             this.filePath = tmp_filePath;
@@ -35,13 +38,17 @@ namespace DownloadUtil
                 throw new Exception("Введены некорректные данные.");
             FileInfo fileInfo = new FileInfo(filePath);
             string fileName = fileInfo.Name;
+
             using (SftpClient sftpClient = new SftpClient(host, port, login, password))
             {
                 sftpClient.Connect();
                 if (sftpClient.IsConnected)
                     if (File.Exists(filePath))
+                    {
+                        sftpClient.ChangeDirectory(directory);
                         using (var fileStream = System.IO.File.OpenRead(filePath))
                             sftpClient.UploadFile(fileStream, fileName, true);
+                    }
                     else
                         throw new Exception("Файла не существует.");
                 else
@@ -49,6 +56,8 @@ namespace DownloadUtil
             }
             MessageBox.Show("Файл успешно отправлен на сервер.", "Успех!", MessageBoxButtons.OK);
         }
+
+        //Функция проверки входных данных (логина, пароля, хост, порта и пути к файлу) на заполненность
 
         public bool CheckData()
         {
