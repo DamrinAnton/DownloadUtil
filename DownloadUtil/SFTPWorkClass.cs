@@ -1,8 +1,11 @@
 ﻿using System;
+using System.IO;
+using Renci.SshNet;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace DownloadUtil
 {
@@ -20,7 +23,9 @@ namespace DownloadUtil
             this.login = tmp_login;
             this.password = tmp_password;
             this.host = tmp_host;
-            this.port = Convert.ToInt32(tmp_port);
+            if (!int.TryParse(tmp_port, out this.port))
+                throw new Exception("Порт задан некорректно.");
+
         }
 
         public void SendFileSFTP(string tmp_filePath)
@@ -33,9 +38,16 @@ namespace DownloadUtil
             using (SftpClient sftpClient = new SftpClient(host, port, login, password))
             {
                 sftpClient.Connect();
-                using (var fileStream = System.IO.File.OpenRead(filePath))
-                    sftpClient.UploadFile(fileStream, fileName, true);
+                if (sftpClient.IsConnected)
+                    if (File.Exists(filePath))
+                        using (var fileStream = System.IO.File.OpenRead(filePath))
+                            sftpClient.UploadFile(fileStream, fileName, true);
+                    else
+                        throw new Exception("Файла не существует.");
+                else
+                    throw new Exception("Нет подключения к серверу.");
             }
+            MessageBox.Show("Файл успешно отправлен на сервер.", "Успех!", MessageBoxButtons.OK);
         }
 
         public bool CheckData()

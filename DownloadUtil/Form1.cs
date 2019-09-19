@@ -22,18 +22,24 @@ namespace DownloadUtil
             fileDialog.ShowDialog();
             string filePath = fileDialog.FileName;
             TextBox_FilePath.Text = filePath;
-            //Проверка git
         }
 
         private void Button_SendFile_Click(object sender, EventArgs e)
         {
-            string login = TextBox_Login.Text;
-            string password = TextBox_Password.Text;
-            string port = TextBox_Port.Text;
-            string filePath = TextBox_FilePath.Text;
-            string host = TextBox_Host.Text;
-            SFTPWorkClass sftpClass = new SFTPWorkClass(login, password, host, port);
-            sftpClass.SendFileSFTP(filePath);
+            try
+            {
+                string login = TextBox_Login.Text;
+                string password = TextBox_Password.Text;
+                string port = TextBox_Port.Text;
+                string filePath = TextBox_FilePath.Text;
+                string host = TextBox_Host.Text;
+                SFTPWorkClass sftpClass = new SFTPWorkClass(login, password, host, port);
+                sftpClass.SendFileSFTP(filePath);
+            }
+            catch(Exception s)
+            {
+                MessageBox.Show(s.Message);
+            }
         }
     }
 }

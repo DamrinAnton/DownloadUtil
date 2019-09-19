@@ -107,6 +107,7 @@
             // 
             this.TextBox_FilePath.Location = new System.Drawing.Point(31, 126);
             this.TextBox_FilePath.Name = "TextBox_FilePath";
+            this.TextBox_FilePath.ReadOnly = true;
             this.TextBox_FilePath.Size = new System.Drawing.Size(169, 20);
             this.TextBox_FilePath.TabIndex = 7;
             // 
@@ -137,7 +138,7 @@
             this.TextBox_Host.TabIndex = 9;
             this.TextBox_Host.Text = "83.243.75.213";
             // 
-            // MaimForm
+            // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -153,7 +154,7 @@
             this.Controls.Add(this.TextBox_Login);
             this.Controls.Add(this.TextBox_Password);
             this.Controls.Add(this.Button_ChooseFilePath);
-            this.Name = "MaimForm";
+            this.Name = "Form1";
             this.Text = "DownloadUtility";
             this.ResumeLayout(false);
             this.PerformLayout();
